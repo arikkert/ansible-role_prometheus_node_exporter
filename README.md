@@ -6,6 +6,7 @@ Install and run prometheus-node-exporter and open firewall for this service if n
 Requirements
 ------------
 
+For RedHat OS family
 EPEL repo (will be installed if not found)
 
 Role Variables
