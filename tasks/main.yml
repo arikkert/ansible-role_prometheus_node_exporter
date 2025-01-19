@@ -41,7 +41,7 @@
 #
 
 - name: RedHat
-  when: ansible_os_family == 'RedHat' and config_firewall
+  when: ansible_os_family == 'RedHat' and config_firewalld
   block:
     - name: Ensure status firewalld is registered
       ansible.builtin.command: systemctl status firewalld
