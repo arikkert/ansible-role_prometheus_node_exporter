@@ -29,7 +29,6 @@
       ansible.builtin.dnf:
         name:
           - epel-release
-          - golang-github-prometheus-node-exporter
     - name: Ensure packages are installed for RedHat 8/9
       ansible.builtin.dnf:
         name:
