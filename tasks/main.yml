@@ -48,6 +48,15 @@
       changed_when: false
       failed_when: false
       check_mode: false
+    - name: Ensure when firewalld already running it is configured to allow node_eporter to be exposed from the prometheus_ip
+      ansible.posix.firewalld:
+        state: enabled
+        rich_rule: 'rule family="ipv4" source address="{{ prometheus_ip }}" port port="{{ item }}" protocol="tcp" accept'
+        immediate: true
+        permanent: true
+      loop:
+        - 9100
+      when: firewalld_status.rc == 0 and prometheus_ip is defined
     - name: Ensure when firewalld already running it is configured to allow node_eporter to be exposed
       ansible.posix.firewalld:
         state: enabled
@@ -56,7 +65,7 @@
         permanent: true
       loop:
         - 9100/tcp
-      when: firewalld_status.rc == 0
+      when: firewalld_status.rc == 0 and prometheus_ip is not defined
 
 #
 # Configure
