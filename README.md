@@ -12,10 +12,6 @@ EPEL repo (will be installed if not found)
 Role Variables
 --------------
 
-*config_firewalld* \
-Only used in RedHat os family \
-Default is false
-
 Dependencies
 ------------
 
@@ -29,7 +25,6 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: servers
       roles
          - role: arikkert.prometheus_node_exporter
-                 config_firewalld: true
 
 License
 -------

@@ -40,7 +40,7 @@
 #
 
 - name: RedHat
-  when: ansible_os_family == 'RedHat' and config_firewalld
+  when: ansible_os_family == 'RedHat'
   block:
     - name: Ensure status firewalld is registered
       ansible.builtin.command: systemctl status firewalld
@@ -57,18 +57,23 @@
       loop:
         - 9100/tcp
       when: firewalld_status.rc == 0
-    - name: Ensure prometheus-node-exporter is running
-      ansible.builtin.service:
-        name: prometheus-node-exporter
-        state: started
-        enabled: true
 
+#
 # Configure
 # Debian
 #
 
 - name: Debian
   when: ansible_os_family == 'Debian'
+  block:
+    - name: Ensure prometheus-node-exporter is running
+      ansible.builtin.service:
+        name: prometheus-node-exporter
+        state: started
+        enabled: true
+
+- name: RedHat
+  when: ansible_os_family == 'RedHat'
   block:
     - name: Ensure prometheus-node-exporter is running
       ansible.builtin.service:
