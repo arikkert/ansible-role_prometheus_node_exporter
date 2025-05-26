@@ -72,6 +72,21 @@
 # Debian
 #
 
+- name: Configure listen address
+  when: ansible_os_family == 'Debian'
+  block:
+    - name: Ensure port is configured if specified
+      ansible.builtin.lineinfile:
+        path: /etc/default/prometheus-node-exporter
+        line: ARGS="--web.listen-address=:{{ port }}"
+        regexp: '^ARGS=""'
+      notify: Restart prometheus-node-exporter
+      when: port is defined
+
+#
+# Start service Debian/RedHat
+#
+
 - name: Debian
   when: ansible_os_family == 'Debian'
   block:
