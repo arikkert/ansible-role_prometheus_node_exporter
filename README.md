@@ -22,6 +22,8 @@ When firewalld is not running, it is not configured. \
 *port* (optional), the port prometheus service is listening to \
 Only used for Debian OS family
 
+*export_docker* (default false), if true docker metrics are gathered on *export_docker_port* (default: 9323)
+
 Dependencies
 ------------
 

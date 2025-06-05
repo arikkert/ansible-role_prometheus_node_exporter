@@ -48,7 +48,7 @@
       changed_when: false
       failed_when: false
       check_mode: false
-    - name: Ensure when firewalld already running it is configured to allow node_eporter to be exposed from the prometheus_ip
+    - name: Ensure when firewalld already running it is configured to allow node_exporter to be exposed from the prometheus_ip
       ansible.posix.firewalld:
         state: enabled
         rich_rule: 'rule family="ipv4" source address="{{ prometheus_ip }}" port port="{{ item }}" protocol="tcp" accept'
@@ -56,8 +56,9 @@
         permanent: true
       loop:
         - 9100
+        - "{{ export_docker_port }}"
       when: firewalld_status.rc == 0 and prometheus_ip is defined
-    - name: Ensure when firewalld already running it is configured to allow node_eporter to be exposed
+    - name: Ensure when firewalld already running it is configured to allow node_exporter to be exposed
       ansible.posix.firewalld:
         state: enabled
         port: "{{ item }}"
@@ -82,6 +83,20 @@
         regexp: '^ARGS=""'
       notify: Restart prometheus-node-exporter
       when: port is defined
+
+#
+# Configure all OS families
+#
+
+- name: Ensure docker metrics are exposed
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: /etc/docker/{{ item }}
+    mode: "0644"
+  loop:
+    - daemon.json
+  notify: Restart prometheus-node-exporter
+  when: export_docker
 
 #
 # Start service Debian/RedHat

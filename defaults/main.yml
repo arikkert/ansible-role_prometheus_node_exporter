@@ -1,2 +1,4 @@
 ---
 # defaults file for ansible-role_prometheus_node_exporter
+export_docker: false
+export_docker_port: 9323
