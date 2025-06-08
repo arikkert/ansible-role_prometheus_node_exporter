@@ -5,3 +5,8 @@
   ansible.builtin.service:
     name: prometheus-node-exporter
     state: restarted
+
+- name: Restart docker
+  ansible.builtin.service:
+    name: docker
+    state: restarted
