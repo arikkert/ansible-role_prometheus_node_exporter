@@ -29,10 +29,24 @@
       ansible.builtin.dnf:
         name:
           - epel-release
+    - name: Ensure repo is installed for RedHat 10
+      ansible.builtin.copy:
+        src: "{{ item }}.el10"
+        dest: /etc/yum.repos.d/{{ item }}
+        mode: "0644"
+      loop:
+        - prometheus-rpm_release.repo
+      when: ansible_distribution_major_version | int == 10
     - name: Ensure packages are installed for RedHat 8/9
       ansible.builtin.dnf:
         name:
           - golang-github-prometheus-node-exporter
+      when: ansible_distribution_major_version | int <= 9
+    - name: Ensure packages are installed for RedHat 10
+      ansible.builtin.dnf:
+        name:
+          - node_exporter
+      when: ansible_distribution_major_version | int == 10
 
 #
 # Configure
@@ -126,5 +140,12 @@
         name: prometheus-node-exporter
         state: started
         enabled: true
+      when: ansible_distribution_major_version | int <= 9
+    - name: Ensure node_exporter is running
+      ansible.builtin.service:
+        name: node_exporter
+        state: started
+        enabled: true
+      when: ansible_distribution_major_version | int == 10
 
 ...
