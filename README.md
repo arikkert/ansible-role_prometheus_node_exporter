@@ -1,5 +1,5 @@
-Role Name
-=========
+prometheus_node_exporter
+=======================
 
 Install and run prometheus-node-exporter and open firewall for this service if needed
 
