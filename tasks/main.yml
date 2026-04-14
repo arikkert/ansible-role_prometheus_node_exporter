@@ -93,10 +93,11 @@
     - name: Ensure port is configured if specified
       ansible.builtin.lineinfile:
         path: /etc/default/prometheus-node-exporter
-        line: ARGS="--web.listen-address=:{{ prometheus_node_exporter_port }}"
-        regexp: '^ARGS=""'
+        regexp: '^ARGS=.*'
+        line: 'ARGS="--web.listen-address=:{{ prometheus_node_exporter_port }}"'
+        create: true
       notify: Restart prometheus-node-exporter
-      when: port is defined
+      when: prometheus_node_exporter_port is defined
 
 #
 # Configure all OS families
