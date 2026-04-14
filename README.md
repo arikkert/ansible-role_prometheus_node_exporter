@@ -19,7 +19,7 @@ If prometheus_ip is defined, the firewall will only allow queries to exporter fr
 If not, the firewall will allow exporter queries from all origins. \
 When firewalld is not running, it is not configured. \
 
-*port* (optional), the port prometheus service is listening to \
+*prometheus_node_exporter_port* (optional), the port prometheus service is listening to \
 Only used for Debian OS family
 
 *export_docker* (default false), if true docker metrics are gathered on *export_docker_port* (default: 9323)
@@ -38,7 +38,7 @@ Including an example of how to use your role (for instance, with variables passe
       roles
          - role: arikkert.prometheus_node_exporter
            prometheus_ip: 1.2.3.4
-           port: 19100
+           prometheus_node_exporter_port: 19100
 
 License
 -------
