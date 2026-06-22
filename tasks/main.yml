@@ -96,6 +96,7 @@
         regexp: '^ARGS=.*'
         line: 'ARGS="--web.listen-address=:{{ prometheus_node_exporter_port }}"'
         create: true
+        mode: "0644"
       notify: Restart prometheus-node-exporter
       when: prometheus_node_exporter_port is defined
 
